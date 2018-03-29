@@ -34,7 +34,7 @@ class ErrorCounter(object):
         self.successes = 0
         self.tests = 0
         self.reason = reason
-        self.limit = lim
+        self.limit = 200
 
 
     def expecting(self, flag, errstring='null'):

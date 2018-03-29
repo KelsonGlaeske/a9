@@ -1,3 +1,12 @@
+"""
+Name: Kelson Glaeske
+NSID: kjg659
+Student Number: 11205487
+Course: CMPT 145
+Lecture Section: 04
+Lab Section: 14
+"""
+
 # CMPT 145: Objects and Classes
 # 201801 Assignment 9 Question 1
 # Defines the GradeItem and the Student class
@@ -7,15 +16,6 @@
 #
 # A Student is a record of a student's identity, and includes the student's
 # grade items.
-"""
-Name: Kelson Glaeske
-NSID: kjg659
-Student Number: 11205487
-Course: CMPT 145
-Lecture Section: 04
-Lab Section: 14
-"""
-import numbers as nm
 
 class GradeItem(object):
     # A Grade Item is anything a course uses in a grading scheme,
@@ -108,17 +108,17 @@ class StudentRecord(object):
         Return:
             :return: None
         """
-        lowest = None
+        lowest = grades[0]
         for g in grades:
-            if lowest is None:
+            if g.scored < lowest.scored:
                 lowest = g
-            else:
-                if g.scored < lowest.scored:
-                    lowest = g
+
+        redistWeight = lowest.weight
         lowest.weight = 0
+
         for g in grades:
             if g.weight != 0:
-                g.weight += 1/len(grades)
+                g.weight += redistWeight/(len(grades)-1)
 
 
     def calculate(self):
@@ -129,7 +129,7 @@ class StudentRecord(object):
             The final grade.
         """
         return round(self.midterm.contribution() + sum([a.contribution() for a in self.assignments])
-                     + sum([b.contribution() for b in self.labs]))
+                     + sum([b.contribution() for b in self.labs]) + self.final_exam.contribution())
 
     def display(self):
         """
@@ -149,6 +149,8 @@ class StudentRecord(object):
         for a in self.assignments:
             if a.weight == 0:
                 print('['+str(a)+']', end=" ")
+            else:
+                print(str(a), end=" ")
         print()
 
         # Print Labs
@@ -227,6 +229,10 @@ if __name__ == '__main__':
     # drop lowest lab for all students
     for s in course:
         s.drop_lowest(s.labs)
+
+    # drop lowest assignment for all students
+    for s in course:
+        s.drop_lowest(s.assignments)
 
     # display the students
     print('------------- After ----------------')

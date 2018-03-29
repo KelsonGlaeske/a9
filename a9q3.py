@@ -1,3 +1,12 @@
+"""
+Name: Kelson Glaeske
+NSID: kjg659
+Student Number: 11205487
+Course: CMPT 145
+Lecture Section: 04
+Lab Section: 14
+"""
+
 # CMPT 145:  Binary Search Trees
 #       Implements the Table ADT
 #
@@ -22,7 +31,7 @@ class Table(object):
         Return:
             :return: the number of key,value pairs in the table
         """
-        return 0
+        return self.__size
 
     def is_empty(self):
         """
@@ -31,7 +40,7 @@ class Table(object):
         Return:
             :return: True if the table is empty
         """
-        return False
+        return self.__size == 0
 
     def retrieve(self, key):
         """
@@ -44,7 +53,7 @@ class Table(object):
             :return: True, value if the key appears in the table
                      False, None otherwise
         """
-        return False, None
+        return prim.member_prim(self.__root, key)
 
     def insert(self, key, value):
         """
@@ -59,7 +68,13 @@ class Table(object):
             :return: True if the key,value was inserted
                      False if the value of an existing key was changed
         """
-        return False
+        keymember, self.__root = prim.insert_prim(self.__root, key, value)
+        # Increment Size
+        if keymember:
+            self.__size += 1
+        # Return Boolean
+        return keymember
+
 
     def delete(self, key):
         """
@@ -72,7 +87,12 @@ class Table(object):
         Return
             :return: True if the key,value was deleted
         """
-        return False
+        keymember, self.__root = prim.delete_prim(self.__root, key)
+        if keymember:
+            # Decrement Size
+            self.__size -= 1
+        return keymember
+
 
     def in_order(self):
         """
